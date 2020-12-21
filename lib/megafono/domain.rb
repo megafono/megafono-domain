@@ -2,6 +2,10 @@ module Megafono
   module Domain
     MAIN_DOMAIN = ENV.fetch('MEGAFONO_DOMAIN', 'megafono.host')
 
+    def self.protocol
+      @protocol ||= env == 'test' ? 'http' : 'https'
+    end
+
     def self.domain
       case env
       when 'test'
