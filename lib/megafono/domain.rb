@@ -7,8 +7,7 @@ module Megafono
     end
 
     def self.domain
-      case env
-      when 'test'
+      if test?
         `/sbin/ip route|awk '/scope/ { print $9 }'`.strip
       else
         Megafono::Domain::MAIN_DOMAIN
@@ -16,12 +15,23 @@ module Megafono
     end
 
     def self.call(service)
-      case env
-      when 'test'
+      if test?
         "#{domain}:#{Capybara.server_port}/#{service}"
       else
         "#{service}.#{domain}"
       end
+    end
+
+    def self.route_setup(service)
+      if test?
+        { at: "/#{service}" }
+      else
+        { at: '/', constraints: { host: self.(service) } }
+      end
+    end
+
+    def self.test?
+      env == 'test'
     end
 
     def self.env
