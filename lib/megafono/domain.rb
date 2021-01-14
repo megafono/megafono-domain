@@ -17,6 +17,8 @@ module Megafono
     def self.call(service)
       if test?
         "#{domain}:#{Capybara.server_port}/#{service}"
+      elsif service == 'link'
+        "#{development? ? 'dev-' : ''}megafono.#{service}"
       else
         "#{service}.#{domain}"
       end
@@ -32,6 +34,10 @@ module Megafono
 
     def self.test?
       env == 'test'
+    end
+
+    def self.development?
+      env == 'development'
     end
 
     def self.env
