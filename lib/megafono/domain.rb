@@ -18,7 +18,7 @@ module Megafono
       if test?
         "#{domain}:#{Capybara.server_port}/#{service}"
       elsif service == 'link'
-        "#{development? ? 'dev-' : ''}megafono.#{service}"
+        "#{development? ? 'dev-' : ''}mgfn.#{service}"
       else
         "#{service}.#{domain}"
       end
