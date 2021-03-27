@@ -16,7 +16,8 @@ module Megafono
 
     def self.call(service)
       if test?
-        "#{domain}:#{Capybara.server_port}/#{service}"
+        require 'capybara'
+        "#{domain}:#{::Capybara.server_port}/#{service}"
       elsif service == 'link'
         "#{development? ? 'dev-' : ''}mgfn.#{service}"
       else
