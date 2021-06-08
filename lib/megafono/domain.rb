@@ -18,6 +18,8 @@ module Megafono
       if test?
         require "capybara"
         "#{domain}:#{::Capybara.server_port}/#{service}"
+      elsif service == "site"
+        "#{development? ? "dev-" : ""}megafono.#{service}"
       elsif service == "link"
         "#{development? ? "dev-" : ""}mgfn.#{service}"
       else
@@ -28,6 +30,8 @@ module Megafono
     def self.route_setup(service)
       if test?
         { at: "/#{service}" }
+      elsif service == "site"
+        { at: "/", constraints: { host: %r{.*.site} } }
       else
         { at: "/", constraints: { host: self.(service) } }
       end
