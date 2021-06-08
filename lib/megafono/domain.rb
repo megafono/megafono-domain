@@ -1,14 +1,14 @@
 module Megafono
   module Domain
-    MAIN_DOMAIN = ENV.fetch('MEGAFONO_DOMAIN', 'megafono.host')
+    MAIN_DOMAIN = ENV.fetch("MEGAFONO_DOMAIN", "megafono.host")
 
     def self.protocol
-      @protocol ||= env == 'test' ? 'http' : 'https'
+      @protocol ||= env == "test" ? "http" : "https"
     end
 
     def self.domain
       if test?
-        `/sbin/ip route|awk '/scope/ { print $9 }'`.strip
+        `/sbin/ip route|awk "/scope/ { print $9 }"`.strip
       else
         Megafono::Domain::MAIN_DOMAIN
       end
@@ -16,10 +16,10 @@ module Megafono
 
     def self.call(service)
       if test?
-        require 'capybara'
+        require "capybara"
         "#{domain}:#{::Capybara.server_port}/#{service}"
-      elsif service == 'link'
-        "#{development? ? 'dev-' : ''}mgfn.#{service}"
+      elsif service == "link"
+        "#{development? ? "dev-" : ""}mgfn.#{service}"
       else
         "#{service}.#{domain}"
       end
@@ -29,20 +29,20 @@ module Megafono
       if test?
         { at: "/#{service}" }
       else
-        { at: '/', constraints: { host: self.(service) } }
+        { at: "/", constraints: { host: self.(service) } }
       end
     end
 
     def self.test?
-      env == 'test'
+      env == "test"
     end
 
     def self.development?
-      env == 'development'
+      env == "development"
     end
 
     def self.env
-      @env || ENV.fetch("RAILS_ENV", 'production')
+      @env || ENV.fetch("RAILS_ENV", "production")
     end
 
     def self.env=(env)
