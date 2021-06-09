@@ -16,6 +16,10 @@ module Megafono
       end
     end
 
+    def self.url_for(service, path = "")
+      "#{protocol}://#{call(service)}/#{path}"
+    end
+
     def self.call(service)
       if test?
         require "capybara"
