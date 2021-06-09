@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Megafono
   module Domain
     MAIN_DOMAIN = ENV.fetch("MEGAFONO_DOMAIN", "megafono.host")
